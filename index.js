@@ -29,10 +29,12 @@ requestList(GOODREADS_USER_ID, SHELF)
   .then(async (data) => {
     try {
       // check if there are any books in the shelf
-      if (!data || !data.rss || !data.rss.channel || !data.rss.channel.item) {
+      if (!data || !data.rss || !data.rss.channel) {
         return;
       }
-      const items = Array.isArray(data.rss.channel.item)
+      const items = !data.rss.channel.item
+        ? []
+        : Array.isArray(data.rss.channel.item)
         ? data.rss.channel.item
         : [data.rss.channel.item];
       const sortedBooks = sortBy(items, SORT_BY_FIELDS);
